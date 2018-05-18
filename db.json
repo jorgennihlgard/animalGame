@@ -1,0 +1,18 @@
+{" users":[{
+	"id":1,
+	"name":"Jorgen",
+	"age": 22,
+	"City":"La"
+},
+{
+	"id":2,
+	"name":"Per",
+	"age": 33,
+	"City":"Hbg"
+},
+{
+	"id":3,
+	"name":"Arne",
+	"age": 12,
+	"City":"gbg"
+}]}
