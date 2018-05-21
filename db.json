@@ -1,4 +1,4 @@
-{" users":[{
+[{
 	"id":1,
 	"name":"Jorgen",
 	"age": 22,
@@ -15,4 +15,4 @@
 	"name":"Arne",
 	"age": 12,
 	"City":"gbg"
-}]}
+}]
