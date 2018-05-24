@@ -1,18 +1,19 @@
 [{
 	"id":1,
-	"name":"Jorgen",
-	"age": 22,
+	"question":"Tänker du på ett djur",
+	"age": 32,
 	"City":"La"
 },
 {
 	"id":2,
-	"name":"Per",
+	"question":"Är det en ",
 	"age": 33,
 	"City":"Hbg"
 },
 {
 	"id":3,
-	"name":"Arne",
+	"question":"Vad skiljer en",
 	"age": 12,
 	"City":"gbg"
-}]
+}
+]

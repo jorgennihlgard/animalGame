@@ -1,0 +1,29 @@
+
+    
+    {  
+        "animal":{   
+            "id":1,
+            "question":"Är det ett däggdjur",
+
+        "left":{"id": 2,
+            "question":"Har den fyra ben",
+            "answer":"Älg"
+        },
+
+        "right":{
+            "id":3,
+            "question": "Har den fenor",
+            "answer":"Fisk",
+            "right":{
+                "id":4,
+                "question":"Har den horn",
+                "answer":"Rådjur"
+            
+            },
+            "left":{
+                "question":"Har den klor"
+            }
+        }
+        }
+            
+    } 

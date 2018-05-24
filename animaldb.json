@@ -1,0 +1,38 @@
+[{
+    "id":1,
+    "question":"Är det ett däggdjur",
+	"animal":"Fågel",
+	"age": 32,
+	"City":"La"
+},
+{
+    "id":2,
+    "side":"left",
+    "question":"Är det en ",
+	"animal":"",
+	"age": 33,
+	"City":"Hbg"
+},
+
+{
+	"id":3,
+	"question":"Kan den flyga",
+	"age": 12,
+	"City":"gbg"
+},
+{
+	"id":4,
+	"question":"Kan den simma",
+	"age": 12,
+	"City":"gbg"
+},
+{
+	"id":5,
+	"question":"Vad skiljer en",
+	"age": 12,
+	"City":"gbg"
+}
+
+
+
+]
