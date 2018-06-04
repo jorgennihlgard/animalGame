@@ -15,24 +15,22 @@
 },
 
 {
-	"id":3,
+	"id":4,
 	"question":"Kan den flyga",
 	"age": 12,
 	"City":"gbg"
 },
 {
-	"id":4,
+	"id":8,
 	"question":"Kan den simma",
 	"age": 12,
 	"City":"gbg"
 },
 {
-	"id":5,
+	"id":16,
 	"question":"Vad skiljer en",
 	"age": 12,
 	"City":"gbg"
 }
-
-
 
 ]

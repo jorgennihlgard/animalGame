@@ -15,7 +15,7 @@ jsonFile.readFile(dbFile, function(err, jsonData) {
   
   app.get("/",function(req,res){
     var answerYesNo = req.query.answer;
-    console.log(answerYesNo);
+    console.log("är denn " +answerYesNo);
     res.render("index", {jsonData,answerYesNo:answerYesNo});
   });
 
@@ -29,7 +29,17 @@ jsonFile.readFile(dbFile, function(err, jsonData) {
       if(err){console.log(err);}
       
     });
-    res.redirect("index")
+    res.redirect("/");
+  });
+
+  app.post("/que",function(req,res){
+   
+    console.log(req);
+    var answ=req.body;
+    
+    
+    
+    res.redirect("/");
   });
 
   //for (var i = 0; i < jsonData.length; ++i) {
