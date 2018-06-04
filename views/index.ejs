@@ -62,7 +62,7 @@ yesButton.addEventListener("click", function(){
     count = count*=2;
     counter.innerHTML = count
     
-   
+    
     var foundObject = findId(JsonObject,count);
    
     
@@ -84,6 +84,10 @@ noButton.addEventListener("click", function(){
 
      function findId(JsonObject,count){
         var foundObject = _.find(JsonObject,function(row){ return row.id == count });
+        if(foundObject){
+            console.log('yes');}
+            else{ console.log('noooo');}
+        
         printQuestion(foundObject);
     }
 
