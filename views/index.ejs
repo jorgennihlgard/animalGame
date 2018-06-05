@@ -18,34 +18,23 @@
       
             
     <p id="stringObject" style="display: none"><%= JSON.stringify(jsonData) %></p>
-                  
-       <h4 id="output"></h4>
-              
-               
-                <span id="count">1</span>
 
-               
-          
-           
-              
-           
-         
-                
-            
     
         <!-- <form action="/" method="get"> -->
-        <input type="text" name="ans">
+        <!-- <input type="text" name="ans"> -->
         <button id="yesBtn" name="answer" value ="Yes">Ja!</button>
         <button id="noBtn" name="answer" value="No">Nej!</button>
    
     <!-- </form> -->
         <br><br>
-    <form action="/" method="post">
-    <input type="text" placeholder="Fråga som urskiljer" name="question">
-    <input type="submit" value="Skicka svar">
-    </form>
-
+    <!-- <form action="/" method="post"> -->
     
+    <!-- <input type="submit" value="Skicka svar"> -->
+    <!-- </form> -->
+
+    <p id="output"></p>
+    <input type="text" id="newQuestion" style="display: none" placeholder="Skriv djuret och tryck enter" name="newQuestion">
+    <span id="count">1</span>
 </body>
 </html>
 <script>
@@ -55,16 +44,38 @@ var noButton = document.getElementById('noBtn');
 var counter =  document.getElementById("count");
 var output = document.getElementById('output');
 var stringObject= document.getElementById("stringObject").innerText;
+var newQuestion = document.getElementById('newQuestion');
 var count=1
 var JsonObject = JSON.parse(stringObject)
+var saveToJson={};
+
+    var firstQuestion = findId(JsonObject,count)
+    output.innerText = firstQuestion.question
 yesButton.addEventListener("click", function(){
 
     count = count*=2;
     counter.innerHTML = count
     
-    
     var foundObject = findId(JsonObject,count);
-   
+    console.log(foundObject);
+
+    if(foundObject){
+        if(foundObject.question){
+            printQuestion(foundObject);
+        }
+        else if(foundObject.animal){
+            printGuess(foundObject);
+        }
+    }
+        // if(foundObject=='undefined' || foundObject == null){
+        //     output.innerHTML += "<p>Vad heter ditt djur?</p>";
+        //     var newQuestion = document.getElementById('newQuestion').value;
+        //     output.innerText += newQuestion;
+        //     console.log(newQuestion); 
+        //     if(newQuestion)
+        //     output.innerText += newQuestion;
+        //     output.innerText += "Vad skiljer en found";
+        // }
     
     //output.textContent = foundObject.question
     
@@ -75,24 +86,90 @@ noButton.addEventListener("click", function(){
     count = count*2+1;
 
     var foundObject = findId(JsonObject,count);
+   if(foundObject){
+        if(foundObject.question){
+            printQuestion(foundObject);
+        }
+        else if(foundObject.animal){
 
-   
-   //output.textContent = foundObject.question
-     
+        }
+    }
+        if(foundObject=='undefined' || foundObject == null){
+            console.log("inne");
+            
+            if (newQuestion.style.display === "none") {
+        newQuestion.style.display = "block";
+    }
+
+            
+
+            console.log(JsonObject);
+            output.innerHTML += "<p>Vad heter ditt djur?</p>";
+            document.getElementById("yesBtn").disabled = true;
+            document.getElementById("noBtn").disabled = true;   
+
+            
+            var newAnimal = document.getElementById('submit');
+            if(newAnimal){
+                console.log("newanimal");
+            output.innerHTML += "<p>Vilken fråga skiljer djuren åt?</p>";
+           
+            
+            
+            output.innerText += newQuestion;
+            console.log(newQuestion); 
+            if(newQuestion)
+            output.innerText += newQuestion;
+            output.innerText += "Vad skiljer en found";
+        
+            }
+            }
 });
 
+ newQuestion.addEventListener("keyup", function(event) {
+     var counter = 1;
 
+  // Cancel the default action, if needed
+  event.preventDefault();
+  
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.which === 13 && newQuestion != "") {
+      console.log("enter");
+      if(counter == 1){
+    newQuestion = document.getElementById('newQuestion').value;
+      saveToJson = {id:count,animal: newQuestion}
+      document.getElementById("yesBtn").disabled = false;
+            document.getElementById("noBtn").disabled = false;
+      console.log(saveToJson);
+      //document.getElementById("question").value = "";
+}
+      if(counter == 2){
+        if (newQuestion.style.display === "block") {
+        newQuestion.style.display = "none";
+      }
+    
+}
+console.log(newQuestion);
+
+   counter++;
+        }
+    JsonObject.push({id:count, animal:"78ffftgg"})
+   
+
+    
+
+});
      function findId(JsonObject,count){
-        var foundObject = _.find(JsonObject,function(row){ return row.id == count });
-        if(foundObject){
-            console.log('yes');}
-            else{ console.log('noooo');}
+        return _.find(JsonObject,function(row){ return row.id == count });
         
-        printQuestion(foundObject);
+        
     }
 
     function printQuestion(objectToPrint){
-        output.innerText = objectToPrint.question;
+        output.innerHTML += "<p>" + objectToPrint.question + "</p>";
+    }
+    function printGuess(objectToPrint){
+        output.innerHTML += "<p>" + objectToPrint.animal + "</p>";
     }
 </script>
 
