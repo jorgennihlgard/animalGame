@@ -29,7 +29,7 @@
         <br><br>
     <!-- <form action="/" method="post"> -->
     
-    <!-- <input type="submit" value="Skicka svar"> -->
+    <input type="submit" id="submitAnswer" value="Skicka svar">
     <!-- </form> -->
 
     <p id="output"></p>
@@ -109,62 +109,79 @@ noButton.addEventListener("click", function(){
             document.getElementById("noBtn").disabled = true;   
 
             
-            var newAnimal = document.getElementById('submit');
-            if(newAnimal){
-                console.log("newanimal");
-            output.innerHTML += "<p>Vilken fråga skiljer djuren åt?</p>";
+            
            
             
             
-            output.innerText += newQuestion;
-            console.log(newQuestion); 
-            if(newQuestion)
-            output.innerText += newQuestion;
-            output.innerText += "Vad skiljer en found";
+            // output.innerText += newQuestion;
+            // console.log(newQuestion); 
+            // if(newQuestion)
+            // output.innerText += newQuestion;
+            // output.innerText += "Vad skiljer en found";
         
             }
-            }
+            //}
 });
 
- newQuestion.addEventListener("keyup", function(event) {
-     var counter = 1;
-
-  // Cancel the default action, if needed
-  event.preventDefault();
+//  newQuestion.addEventListener("keyup", function(event) {
   
-  // Number 13 is the "Enter" key on the keyboard
-  if (event.which === 13 && newQuestion != "") {
-      console.log("enter");
-      if(counter == 1){
-    newQuestion = document.getElementById('newQuestion').value;
-      saveToJson = {id:count,animal: newQuestion}
-      document.getElementById("yesBtn").disabled = false;
-            document.getElementById("noBtn").disabled = false;
-      console.log(saveToJson);
-      //document.getElementById("question").value = "";
-}
-      if(counter == 2){
+
+//   // Cancel the default action, if needed
+//   event.preventDefault();
+  
+//   // Number 13 is the "Enter" key on the keyboard
+//   if (event.which === 13 && newQuestion != "") {
+var ddd =0;
+    submitAnswer.addEventListener("click",function(){
+        ddd++;
+
+         if(ddd==2){
+            if (newQuestion != "") {
+     
+     newQuestion = document.getElementById('newQuestion').value;
+     saveToJson = {id:count,question: newQuestion}
+       
+       console.log(saveToJson);
+       output.innerText += newQuestion;
+                
+    console.log(newQuestion);
+    newQuestion = document.getElementById('newQuestion');
+        console.log('heppslit');
         if (newQuestion.style.display === "block") {
-        newQuestion.style.display = "none";
+            newQuestion.style.display = "none";}
+            document.getElementById("yesBtn").disabled = false;
+                document.getElementById("noBtn").disabled = false;
+            
+    }
+         }
+         if(ddd==1){
+      console.log("enter");
+      if (newQuestion != "") {
+     
+    newQuestion = document.getElementById('newQuestion').value;
+    saveToJson = {id:count*2,animal: newQuestion}
+      
+      console.log(saveToJson);
+      output.innerText += newQuestion;
+      document.getElementById("newQuestion").value = "";
+      //var newAnimal = document.getElementById('submitAnswer');
+      console.log("newanimal");
+            // if(newAnimal){
+                output.innerHTML += "<p>Vilken fråga skiljer djuren åt?</p>";
+        
+    
       }
-    
-}
-console.log(newQuestion);
-
-   counter++;
-        }
-    JsonObject.push({id:count, animal:"78ffftgg"})
-   
-
-    
-
+         }
+      console.log('nöstenute');
 });
      function findId(JsonObject,count){
         return _.find(JsonObject,function(row){ return row.id == count });
-        
-        
     }
 
+    function pushToJson(saveToJson){
+        
+        JsonObject.push(saveToJson)
+    }
     function printQuestion(objectToPrint){
         output.innerHTML += "<p>" + objectToPrint.question + "</p>";
     }
