@@ -51,16 +51,19 @@ var refresh = document.getElementById('refresh');
 var count=1
 var JsonObject = JSON.parse(stringObject)
 var saveToJson={};
-
+var currentObject={};
     var firstQuestion = findId(JsonObject,count)
-    output.innerText = firstQuestion.question
+    output.innerText = firstQuestion.question;
+
 yesButton.addEventListener("click", function(){
 
     count = count*=2;
     counter.innerHTML = count
     
     var foundObject = findId(JsonObject,count);
-    console.log("är foundObj" + foundObject);
+    currentObject = foundObject;
+    console.log("current "+currentObject.id);
+    console.log("är foundObj" + foundObject.id);
 
     if(foundObject==undefined){
             console.log('hittar undefined')
@@ -102,11 +105,23 @@ noButton.addEventListener("click", function(){
         if(foundObject.question){
             printQuestion(foundObject);
         }
-        else if(foundObject.animal){
-
-        }
+         else if(foundObject.animal){
+             console.log("found the objekt id");
+             findId(foundObject.count)
+             console.log(foundObject.id)
+         }
     }
         if(foundObject == null){
+            console.log("current i nobutt " + currentObject.id);
+            if(currentObject.animal){
+                console.log("Är ett djur");
+               var rt = findChangeId(JsonObject,currentObject)
+               //sätt in object som byter id
+               console.log("rt" +rt.id)
+   // (currentObject.id*2)+1;
+                
+                }
+            
             console.log("inne");
             if (newQuestion.style.display === "none") {
         newQuestion.style.display = "block";
@@ -187,7 +202,12 @@ var ddd =0;
       console.log('nöstenute');
 });
      function findId(JsonObject,count){
-        return _.find(JsonObject,function(row){ return row.id == count });
+    return _.find(JsonObject,function(row){ return row.id == count });
+    }
+
+    function findChangeId(JsonObject){
+    return _.find(JsonObject,function(row){ return row.id == currentObject.id });
+        
     }
 
     function pushToJson(saveToJson){
