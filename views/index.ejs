@@ -29,11 +29,13 @@
         <br><br>
     <!-- <form action="/" method="post"> -->
     
-    <input type="submit" id="submitAnswer" value="Skicka svar">
+    <input type="submit" id="submitAnswer" value="Svara på fråga">
+    
     <!-- </form> -->
 
     <p id="output"></p>
-    <input type="text" id="newQuestion" style="display: none" placeholder="Skriv djuret och tryck enter" name="newQuestion">
+    <input type="submit" id="refresh" style="background-color:green; visibility: hidden;" onclick="RefreshPage()" value="Börja om spel">
+    <input type="text" id="newQuestion" style=" display: none" placeholder="Skriv djuret och tryck enter" name="newQuestion">
     <span id="count">1</span>
 </body>
 </html>
@@ -45,6 +47,7 @@ var counter =  document.getElementById("count");
 var output = document.getElementById('output');
 var stringObject= document.getElementById("stringObject").innerText;
 var newQuestion = document.getElementById('newQuestion');
+var refresh = document.getElementById('refresh');
 var count=1
 var JsonObject = JSON.parse(stringObject)
 var saveToJson={};
@@ -57,13 +60,22 @@ yesButton.addEventListener("click", function(){
     counter.innerHTML = count
     
     var foundObject = findId(JsonObject,count);
-    console.log(foundObject);
+    console.log("är foundObj" + foundObject);
+
+    if(foundObject==undefined){
+            console.log('hittar undefined')
+            output.innerHTML += "<h4>" + "Datorn har gissat rätt" + "</h4>";
+            document.getElementById('refresh').style.visibility = 'visible';
+        }
 
     if(foundObject){
         if(foundObject.question){
+            console.log("hittat fråga");
             printQuestion(foundObject);
         }
+        
         else if(foundObject.animal){
+            console.log("hittat djur");
             printGuess(foundObject);
         }
     }
@@ -94,9 +106,8 @@ noButton.addEventListener("click", function(){
 
         }
     }
-        if(foundObject=='undefined' || foundObject == null){
+        if(foundObject == null){
             console.log("inne");
-            
             if (newQuestion.style.display === "none") {
         newQuestion.style.display = "block";
     }
@@ -151,7 +162,8 @@ var ddd =0;
             newQuestion.style.display = "none";}
             document.getElementById("yesBtn").disabled = false;
                 document.getElementById("noBtn").disabled = false;
-            
+           pushToJson(saveToJson);
+            UpdateJsonFile(JsonObject);
     }
          }
          if(ddd==1){
@@ -168,7 +180,7 @@ var ddd =0;
       console.log("newanimal");
             // if(newAnimal){
                 output.innerHTML += "<p>Vilken fråga skiljer djuren åt?</p>";
-        
+                pushToJson(saveToJson);
     
       }
          }
@@ -179,14 +191,31 @@ var ddd =0;
     }
 
     function pushToJson(saveToJson){
-        
+
         JsonObject.push(saveToJson)
+}
+    function UpdateJsonFile(JsonObject){
+        var JsonString = JSON.stringify(JsonObject);
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+    // if (this.readyState == 4 && this.status == 200) {
+      
+    // }
+  };
+  xhttp.open("POST","/", true),JSON;
+  xhttp.send(JsonString);
+
+  RefreshPage();
+    }
+
+    function RefreshPage(){
+        location.reload();
     }
     function printQuestion(objectToPrint){
-        output.innerHTML += "<p>" + objectToPrint.question + "</p>";
+        output.innerHTML = "<p>" + objectToPrint.question + "</p>";
     }
     function printGuess(objectToPrint){
-        output.innerHTML += "<p>" + objectToPrint.animal + "</p>";
+        output.innerHTML += "<p> Tänker du på " + objectToPrint.animal + "</p>";
     }
 </script>
 

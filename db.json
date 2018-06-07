@@ -1,19 +1,21 @@
 [{
 	"id":1,
-	"question":"Tänker du på ett djur",
-	"age": 32,
-	"City":"La"
+	"question":"Är det ett däggdjur"
 },
 {
 	"id":2,
-	"question":"Är det en ",
-	"age": 33,
-	"City":"Hbg"
+	"question":"Är det ett husdjur"
 },
 {
 	"id":3,
-	"question":"Vad skiljer en",
-	"age": 12,
-	"City":"gbg"
+	"question":"Har den fiskfjäll"
+},
+{
+	"id":4,
+	"animal": "katt"
+},
+{
+	"id":6,
+	"question":"fisk"
 }
 ]

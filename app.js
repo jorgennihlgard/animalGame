@@ -10,13 +10,14 @@ var dbFile = './animaldb.json'
 
 app.use(bodyParser.urlencoded({extended:true}));
 
-jsonFile.readFile(dbFile, function(err, jsonData) {
-  if (err) throw err;
-  
+
+
   app.get("/",function(req,res){
+    jsonFile.readFile(dbFile, function(err, jsonData) {
+  if (err) throw err;
     var answerYesNo = req.query.answer;
-    console.log("är denn " +answerYesNo);
-    res.render("index", {jsonData,answerYesNo:answerYesNo});
+    console.log("är denn ");
+    res.render("index", {jsonData});
   });
 
   app.post("/",function(req,res){
@@ -25,22 +26,15 @@ jsonFile.readFile(dbFile, function(err, jsonData) {
     var answ=req.body;
     
     
-    jsonFile.writeFile(dbFile,answ,{flag:'a'},function(err){
+    jsonFile.writeFile(dbFile,answ,function(err){
       if(err){console.log(err);}
-      
+     
     });
+    console.log("är answ" + answ);
+    //console.log("jsonfile" + jsonData)
     res.redirect("/");
   });
 
-  app.post("/que",function(req,res){
-   
-    console.log(req);
-    var answ=req.body;
-    
-    
-    
-    res.redirect("/");
-  });
 
   //for (var i = 0; i < jsonData.length; ++i) {
     
@@ -50,8 +44,8 @@ jsonFile.readFile(dbFile, function(err, jsonData) {
     // console.log("Designation: "+jsonData[i].city);
     console.log("----------------------------------");
   //}
-});
 
+});
 app.use(bodyParser.json({type: function() {return true}}));
 
 
