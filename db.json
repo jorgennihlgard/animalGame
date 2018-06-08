@@ -15,7 +15,15 @@
 	"animal": "katt"
 },
 {
+	"id":5,
+	"animal":"dinosaurie"
+},
+{
 	"id":6,
-	"question":"fisk"
+	"animal":"fisk"
+},
+{
+	"id":7,
+	"animal":"anka"
 }
 ]
