@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/stylesheet" href="/stylesheet.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="script.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
    <title>Djurspelet</title>
 
    <style>
-   h1{text-align: center}
-   button{margin:20px;}
-   submitAnswer{display: block;}
+       body{background: rgb(158,154,117)}
+    p{font-family: cursive, sans-serif; font-size: 1.2rem; color: rgb(28, 34,46)}
+   h1{text-align: center; margin-bottom: 50px; font-size: 60px; color:rgb(65, 83, 59)}
+   button{margin-left:20px;margin-top: 0;}
+   #submitAnswer, #refresh, #answerTextbox{display: block;margin-left: 20px; margin-top:20px;}
+   
    </style>
 </head>
     <body>
@@ -23,15 +27,15 @@
         <h1>Djurspelet pau svenska</h1>
         
        
-        <p id="stringObject" style="display: none"><%= JSON.stringify(jsonData) %></p>
+        <p id="stringObject" style="display: none"><%= JSON.stringify(jsonData) %></p> <!--Get Jsonfile from server.-->
         <div class="container">
             <div class="row">
             <div class="col-md-6 offset-md-2">    
-                <button id="yesBtn" name="answer" value ="Yes">Ja!</button>
-                <button id="noBtn" name="answer" value="No">Nej!</button>
-                <input type="submit" style="visibility: hidden;" id="submitAnswer" value="Svara på fråga">
-                <input type="submit" id="refresh" style="background-color:green; visibility: hidden;" onclick="RefreshPage()" value="Börja om spel">
-        <input type="text" id="newQuestion" style=" display: none" placeholder="Skriv svar här" name="newQuestion">
+                <button id="yesBtn" class="btn btn-primary" name="answer" value ="Yes">Ja!</button>
+                <button id="noBtn"  class="btn btn-primary" name="answer" value="No">Nej!</button>
+                <input type="submit" class="btn btn-dark" style="display: none;" id="submitAnswer" value="Svara på fråga">
+                <input type="submit" class="btn btn-lg btn-success" id="refresh" style="display: none; " onclick="RefreshPage()" value="Börja om spel">
+        <input type="text" id="answerTextbox" style=" display: none" placeholder="Skriv svar här" name="answerTextbox">
             </div>
         <div class="col-md-4">
         
@@ -53,9 +57,9 @@
     var noButton = document.getElementById('noBtn');
     var output = document.getElementById('output');
     var stringObject= document.getElementById("stringObject").innerText;
-    var newQuestion = document.getElementById('newQuestion');
+    var answerTextbox = document.getElementById('answerTextbox');
     var refresh = document.getElementById('refresh');
-    var count=1
+    var count=1;
     var JsonObject = JSON.parse(stringObject)
     var saveToJson={};
     var currentObject={};
@@ -65,19 +69,19 @@
     printQuestion(firstQuestion);
    
 
-    yesButton.addEventListener("click", function(){
+    yesButton.addEventListener("click", function(){ //Multiply id (countvariable) with 2 if answer is yes
         count = count*=2;
         
         
-        var foundObject = findId(JsonObject,count);
+        var foundObject = findId(JsonObject,count);     
         
 
-        if(foundObject==undefined){
+        if(foundObject==undefined){                                         //Depending on what's returned, we print to screen
             output.innerHTML += "<h4>" + "Datorn har gissat rätt" + "</h4>";
-            document.getElementById('refresh').style.visibility = 'visible';
+            $('#refresh').show('slow');
             }
 
-        if(foundObject){
+        if(foundObject){                       
             currentObject = foundObject;
             if(foundObject.question){
                 printQuestion(foundObject);
@@ -92,7 +96,7 @@
 
 noButton.addEventListener("click", function(){
     
-    count = count*2+1;
+    count = count*2+1;                              //Multiply by 2 + 1 if answer is no.  
 
     var foundObject = findId(JsonObject,count);
     
@@ -107,16 +111,16 @@ noButton.addEventListener("click", function(){
     }
         if(foundObject == null){
             if(currentObject.animal){
-               count = currentObject.id;
-               currentObject.id = (count*2)+1;
+               count = currentObject.id;         // New question will get old animals id
+               currentObject.id = (count*2)+1; //The last found object (or current object) moves down the tree
                 }
                
-        if (newQuestion.style.display === "none") {
-            newQuestion.style.display = "block";
+        if (answerTextbox.style.display === "none") {
+            $('#answerTextbox').show('slow');
     }
         console.log(JsonObject);
         output.innerHTML += "<p>Vad heter ditt djur?</p>";
-        document.getElementById('submitAnswer').style.visibility = 'visible';
+        $('#submitAnswer').show('slow');
         document.getElementById("yesBtn").disabled = true;
         document.getElementById("noBtn").disabled = true;   
     }
@@ -124,27 +128,27 @@ noButton.addEventListener("click", function(){
 
     submitAnswer.addEventListener("click",function(){
         questioncount++;
-        if(questioncount==1){
-            if (newQuestion.value != "") {
-                newQuestion = document.getElementById('newQuestion').value;
-                saveToJson = {id:count*2,animal: newQuestion
+        if(questioncount==1){       //Answer question about new animal
+            if (answerTextbox.value != "") {
+                answerTextbox = document.getElementById('answerTextbox').value;
+                saveToJson = {id:count*2,animal: answerTextbox      // New animal will get new question id * 2
                 }
-            output.innerText += newQuestion;
-            document.getElementById("newQuestion").value = "";
-            output.innerHTML += "<p>Vilken fråga skiljer djuren åt?</p>";
+            output.innerHTML += "<p>" + answerTextbox + "</p>";
+            document.getElementById("answerTextbox").value = "";
+            output.innerHTML += "<p>Vilken fråga blir 'Ja' för det nya djuret</p>";
             pushToJson(saveToJson);
              }
          }
          
-        if(questioncount==2){
-            if (newQuestion != "") {
+        if(questioncount==2){           //Answer question about new question
+            if (answerTextbox != "") {
      
-        newQuestion = document.getElementById('newQuestion').value;
-        saveToJson = {id:count,question: newQuestion}
-        output.innerText += newQuestion;
-        newQuestion = document.getElementById('newQuestion');
-        if (newQuestion.style.display === "block") {
-            newQuestion.style.display = "none";}
+                answerTextbox = document.getElementById('answerTextbox').value;
+        saveToJson = {id:count,question: answerTextbox}
+        output.innerHTML += "<p>" + answerTextbox + "</p>";
+        answerTextbox = document.getElementById('answerTextbox');
+        if (answerTextbox.style.display === "block") {
+            answerTextbox.style.display = "none";}
             document.getElementById("yesBtn").disabled = false;
             document.getElementById("noBtn").disabled = false;
             pushToJson(saveToJson);
@@ -159,14 +163,10 @@ noButton.addEventListener("click", function(){
         return _.find(JsonObject,function(row){ return row.id == count });
     }
 
-    function findChangeId(JsonObject){
-        return _.find(JsonObject,function(row){ return row.id == currentObject.id });
-        
-    }
     function pushToJson(saveToJson){
         JsonObject.push(saveToJson)
 }
-    function UpdateJsonFile(JsonObject){
+    function UpdateJsonFile(JsonObject){                //Sends file to server
         var JsonString = JSON.stringify(JsonObject);
         var xhttp = new XMLHttpRequest();
         xhttp.open("POST","/", true),JSON;
